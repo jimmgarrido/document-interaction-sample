@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -91,17 +91,19 @@
     <Reference Include="Xamarin.iOS" />
   </ItemGroup>
   <ItemGroup>
-    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json" />
-    <ImageAsset Include="Assets.xcassets\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json">
+      <InProject>false</InProject>
+    </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\Contents.json">
+      <InProject>false</InProject>
+    </ImageAsset>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
-    <Folder Include="sampledocs\" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />
     <InterfaceDefinition Include="Main.storyboard" />
-    <InterfaceDefinition Include="InteractionDelegate.xib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -115,14 +117,8 @@
       <DependentUpon>TableViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="TableSource.cs" />
-    <Compile Include="DocumentTableView.designer.cs">
-      <DependentUpon>TableSource.cs</DependentUpon>
-    </Compile>
     <Compile Include="QuickLook.cs" />
     <Compile Include="InteractionDelegate.cs" />
-    <Compile Include="InteractionDelegate.designer.cs">
-      <DependentUpon>InteractionDelegate.cs</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="sampledocs\gettingstarted.pdf" />

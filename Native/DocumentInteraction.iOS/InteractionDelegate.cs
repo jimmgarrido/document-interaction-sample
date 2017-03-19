@@ -3,18 +3,18 @@ using UIKit;
 
 namespace DocumentInteraction.iOS
 {
-	public partial class InteractionDelegate : UIDocumentInteractionControllerDelegate
+	public class InteractionDelegate : UIDocumentInteractionControllerDelegate
 	{
-		UIViewController currentController;
+		UIViewController parentController;
 
 		public InteractionDelegate(UIViewController controller)
 		{
-			currentController = controller;
+			parentController = controller;
 		}
 
 		public override UIViewController ViewControllerForPreview(UIDocumentInteractionController controller)
 		{
-			return currentController;
+			return parentController;
 		}
 	}
 }

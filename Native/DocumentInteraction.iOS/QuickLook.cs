@@ -24,7 +24,10 @@ namespace DocumentInteraction.iOS
 
     public class PreviewItem : QLPreviewItem
     {
-        public override string ItemTitle
+		nint itemIndex;
+		NSUrl fileUrl;
+
+		public override string ItemTitle
         {
             get
             {
@@ -39,10 +42,6 @@ namespace DocumentInteraction.iOS
 				return fileUrl;
             }
         }
-
-
-        nint itemIndex;
-		NSUrl fileUrl;
 
         public PreviewItem(nint index)
         {
