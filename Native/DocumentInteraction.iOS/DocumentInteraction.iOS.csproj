@@ -92,10 +92,10 @@
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json">
-      <InProject>false</InProject>
+      <Visible>false</Visible>
     </ImageAsset>
     <ImageAsset Include="Assets.xcassets\Contents.json">
-      <InProject>false</InProject>
+      <Visible>false</Visible>
     </ImageAsset>
   </ItemGroup>
   <ItemGroup>
@@ -118,7 +118,6 @@
     </Compile>
     <Compile Include="TableSource.cs" />
     <Compile Include="QuickLook.cs" />
-    <Compile Include="InteractionDelegate.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="sampledocs\gettingstarted.pdf" />

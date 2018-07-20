@@ -1,17 +1,15 @@
 using Foundation;
 using System;
+using System.Collections.Generic;
 using UIKit;
 
 namespace DocumentInteraction.iOS
 {
     public class TableSource : UITableViewSource
     {
-        public static string[] Documents = {
-            "sampledocs/gettingstarted.pdf",
-            "sampledocs/Xamagon.png"
-        };
-
         static string _cellID = "1";
+
+        public List<string> Documents { get; set; }
 
         public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
@@ -23,7 +21,7 @@ namespace DocumentInteraction.iOS
                 cell.Accessory = UITableViewCellAccessory.DisclosureIndicator;
             }
 
-            var fileUrl = NSUrl.FromFilename(TableSource.Documents[indexPath.Row]);
+            var fileUrl = NSUrl.FromFilename(Documents[indexPath.Row]);
             cell.TextLabel.Text = fileUrl.LastPathComponent;
 
 			return cell;
@@ -31,7 +29,7 @@ namespace DocumentInteraction.iOS
 
         public override nint RowsInSection(UITableView tableview, nint section)
         {
-			return Documents.Length;
+			return Documents.Count;
         }
 
         public override nint NumberOfSections(UITableView tableView)

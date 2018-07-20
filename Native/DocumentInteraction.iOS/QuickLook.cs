@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Foundation;
 using QuickLook;
 
@@ -6,20 +7,22 @@ namespace DocumentInteraction.iOS
 {
     public class QuickLook : QLPreviewControllerDelegate, IQLPreviewControllerDataSource
     {
+        List<string> documents;
 
-		#region IQLPreviewControllerDataSource implementations
+        public QuickLook(List<string> docs)
+        {
+            documents = docs;
+        }
 
 		public nint PreviewItemCount(QLPreviewController controller)
         {
-            return TableSource.Documents.Length;
+            return documents.Count;
         }
 
         public IQLPreviewItem GetPreviewItem(QLPreviewController controller, nint index)
         {
-            return new PreviewItem(index);
+            return new PreviewItem(index, documents[(int)index]);
         }
-
-		#endregion
     }
 
     public class PreviewItem : QLPreviewItem
@@ -43,11 +46,10 @@ namespace DocumentInteraction.iOS
             }
         }
 
-        public PreviewItem(nint index)
+        public PreviewItem(nint index, string url)
         {
             itemIndex = index;
-			fileUrl = NSUrl.FromFilename(TableSource.Documents[itemIndex]);
+			fileUrl = NSUrl.FromFilename(url);
         }
     }
 }
-

@@ -2,11 +2,14 @@ using Foundation;
 using System;
 using UIKit;
 using QuickLook;
+using System.Collections.Generic;
 
 namespace DocumentInteraction.iOS
 {
     public partial class TableViewController : UITableViewController, IUITableViewDelegate
     {
+        TableSource source;
+
         public TableViewController (IntPtr handle) : base (handle)
         {
 			
@@ -16,7 +19,13 @@ namespace DocumentInteraction.iOS
 		{
 			base.ViewWillAppear(animated);
 
-			TableView.Source = new TableSource();
+            source = new TableSource();
+            source.Documents = new List<string> {
+                "sampledocs/gettingstarted.pdf",
+                "sampledocs/Xamagon.png"
+            };
+
+            TableView.Source = source;
 			TableView.Delegate = this;
 		}
 
@@ -25,7 +34,7 @@ namespace DocumentInteraction.iOS
 			if (indexPath.Section == 0)
 			{
 				var previewController = new QLPreviewController();
-				var sourceDelegate = new QuickLook();
+				var sourceDelegate = new QuickLook(source.Documents);
 
 				previewController.Delegate = sourceDelegate;
 				previewController.DataSource = sourceDelegate;
@@ -40,9 +49,9 @@ namespace DocumentInteraction.iOS
 			else
 			{
 				var previewController = UIDocumentInteractionController.FromUrl(
-					NSUrl.FromFilename(TableSource.Documents[indexPath.Row]));
-				previewController.Delegate = new InteractionDelegate(this);
-				previewController.PresentPreview(true);
+					NSUrl.FromFilename(source.Documents[indexPath.Row]));
+                previewController.Delegate = new MyInteractionDelegate(this);
+                previewController.PresentPreview(true);
 
 
 				// You can present other options for the file instead of a preview
@@ -51,5 +60,20 @@ namespace DocumentInteraction.iOS
 				// previewController.PresentOpenInMenu(TableView.Frame, TableView, true);
 			}
 		}
+    }
+
+    public class MyInteractionDelegate : UIDocumentInteractionControllerDelegate
+    {
+        UIViewController parentController;
+
+        public MyInteractionDelegate(UIViewController controller)
+        {
+            parentController = controller;
+        }
+
+        public override UIViewController ViewControllerForPreview(UIDocumentInteractionController controller)
+        {
+            return parentController;
+        }
     }
 }
