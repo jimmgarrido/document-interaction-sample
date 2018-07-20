@@ -7,22 +7,32 @@ namespace DocumentInteraction.iOS
 {
     public class TableSource : UITableViewSource
     {
-        static string _cellID = "1";
+		readonly string cellID = "1";
 
         public List<string> Documents { get; set; }
 
+		public TableSource()
+		{
+			Documents = new List<string> {
+				"sampledocs/gettingstarted.pdf",
+				"sampledocs/Xamagon.png"
+			};
+		}
+
         public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
-            var cell = tableView.DequeueReusableCell(_cellID);
+            var cell = tableView.DequeueReusableCell(cellID);
 
             if (cell == null)
             {
-                cell = new UITableViewCell(UITableViewCellStyle.Subtitle, _cellID);
-                cell.Accessory = UITableViewCellAccessory.DisclosureIndicator;
-            }
+				cell = new UITableViewCell(UITableViewCellStyle.Subtitle, cellID)
+				{
+					Accessory = UITableViewCellAccessory.DisclosureIndicator
+				};
+			}
 
             var fileUrl = NSUrl.FromFilename(Documents[indexPath.Row]);
-            cell.TextLabel.Text = fileUrl.LastPathComponent;
+			cell.TextLabel.Text = fileUrl.LastPathComponent;
 
 			return cell;
         }
@@ -39,14 +49,7 @@ namespace DocumentInteraction.iOS
 
         public override string TitleForHeader(UITableView tableView, nint section)
         {
-            if (section == 0)
-            {
-                return "QuickLook";
-            }
-            else
-            {
-                return "DocumentInteraction";
-            }
-        }
+			return section == 0 ? "QuickLook" : "DocumentInteraction";
+		}
     }
 }

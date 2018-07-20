@@ -20,12 +20,8 @@ namespace DocumentInteraction.iOS
 			base.ViewWillAppear(animated);
 
             source = new TableSource();
-            source.Documents = new List<string> {
-                "sampledocs/gettingstarted.pdf",
-                "sampledocs/Xamagon.png"
-            };
-
             TableView.Source = source;
+
 			TableView.Delegate = this;
 		}
 
@@ -34,10 +30,9 @@ namespace DocumentInteraction.iOS
 			if (indexPath.Section == 0)
 			{
 				var previewController = new QLPreviewController();
-				var sourceDelegate = new QuickLook(source.Documents);
+				var previewSource = new QuickLookSource(source.Documents);
 
-				previewController.Delegate = sourceDelegate;
-				previewController.DataSource = sourceDelegate;
+				previewController.DataSource = previewSource;
 
 				previewController.CurrentPreviewItemIndex = indexPath.Row;
 				NavigationController.PushViewController(previewController, true);
@@ -50,6 +45,7 @@ namespace DocumentInteraction.iOS
 			{
 				var previewController = UIDocumentInteractionController.FromUrl(
 					NSUrl.FromFilename(source.Documents[indexPath.Row]));
+
                 previewController.Delegate = new MyInteractionDelegate(this);
                 previewController.PresentPreview(true);
 
@@ -64,16 +60,16 @@ namespace DocumentInteraction.iOS
 
     public class MyInteractionDelegate : UIDocumentInteractionControllerDelegate
     {
-        UIViewController parentController;
+        UIViewController parent;
 
         public MyInteractionDelegate(UIViewController controller)
         {
-            parentController = controller;
+            parent = controller;
         }
 
         public override UIViewController ViewControllerForPreview(UIDocumentInteractionController controller)
         {
-            return parentController;
+            return parent;
         }
     }
 }
