@@ -29,9 +29,8 @@ namespace DocumentInteraction.iOS
     {
 		NSUrl fileUrl;
 
-		public override string ItemTitle => fileUrl.LastPathComponent;
-
 		public override NSUrl ItemUrl => fileUrl;
+		public override string ItemTitle => fileUrl.LastPathComponent;
 
 		public PreviewItem(string url)
         {

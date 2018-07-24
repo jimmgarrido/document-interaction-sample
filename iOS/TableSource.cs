@@ -49,7 +49,7 @@ namespace DocumentInteraction.iOS
 
         public override string TitleForHeader(UITableView tableView, nint section)
         {
-			return section == 0 ? "QuickLook" : "DocumentInteraction";
+			return section == 0 ? "Document Interaction Controller" : "Quick Look controller";
 		}
     }
 }

@@ -19,6 +19,8 @@ namespace DocumentInteraction.iOS
 		{
 			base.ViewWillAppear(animated);
 
+			NavigationController.NavigationBar.PrefersLargeTitles = true;
+
             source = new TableSource();
             TableView.Source = source;
 
@@ -29,10 +31,22 @@ namespace DocumentInteraction.iOS
 		{
 			if (indexPath.Section == 0)
 			{
-				var previewController = new QLPreviewController();
-				var previewSource = new QuickLookSource(source.Documents);
+				var previewController = UIDocumentInteractionController.FromUrl(
+					NSUrl.FromFilename(source.Documents[indexPath.Row]));
 
-				previewController.DataSource = previewSource;
+				previewController.Delegate = new MyInteractionDelegate(this);
+				previewController.PresentPreview(true);
+
+
+				// You can present other options for the file instead of a preview
+				//
+				 //previewController.PresentOptionsMenu(TableView.Frame, TableView, true);
+				 //previewController.PresentOpenInMenu(TableView.Frame, TableView, true);
+			}
+			else
+			{
+				var previewController = new QLPreviewController();
+				previewController.DataSource = new QuickLookSource(source.Documents);
 
 				previewController.CurrentPreviewItemIndex = indexPath.Row;
 				NavigationController.PushViewController(previewController, true);
@@ -40,20 +54,6 @@ namespace DocumentInteraction.iOS
 				// You can present modally instead
 				//
 				// PresentViewController(previewController, true, null); 
-			}
-			else
-			{
-				var previewController = UIDocumentInteractionController.FromUrl(
-					NSUrl.FromFilename(source.Documents[indexPath.Row]));
-
-                previewController.Delegate = new MyInteractionDelegate(this);
-                previewController.PresentPreview(true);
-
-
-				// You can present other options for the file instead of a preview
-				//
-				// previewController.PresentOptionsMenu(TableView.Frame, TableView, true);
-				// previewController.PresentOpenInMenu(TableView.Frame, TableView, true);
 			}
 		}
     }
